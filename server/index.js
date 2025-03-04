@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -9,7 +10,7 @@ var server = http.createServer(app);
 
 app.use(express.json());
 
-const dB = `mongodb+srv://ryuk:${mongo_password}@cluster0.eor9i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const dB = process.env.MONGO_URI;
 
 mongoose
   .connect(dB)
