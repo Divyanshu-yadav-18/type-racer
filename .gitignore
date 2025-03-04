@@ -44,4 +44,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-D:\appdv\TypeRacer\tyrace\server\.env
+/TypeRacer/tyrace/server/.env
