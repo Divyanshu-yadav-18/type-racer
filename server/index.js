@@ -17,6 +17,10 @@ const dB = process.env.MONGO_URI;
 
 io.on("connection", (socket) => {
   console.log(socket.io);
+
+  socket.on("test", (data) => {
+    console.log(data);
+  });
 });
 
 mongoose
