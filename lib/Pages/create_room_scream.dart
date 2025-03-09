@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tyrace/utils/socket_client.dart';
+import 'package:tyrace/utils/socket_methods.dart';
 import 'package:tyrace/widgets/custom_button.dart';
 import 'package:tyrace/widgets/custom_text_field.dart';
 
@@ -12,16 +13,12 @@ class CreateRoomScream extends StatefulWidget {
 
 class _CreateRoomScreamState extends State<CreateRoomScream> {
   final TextEditingController _nameController = TextEditingController();
-  final SocketClient _socketClient = SocketClient.instance;
+  final SocketMethods _socketMethods = SocketMethods();
 
   @override
   void dispose() {
     super.dispose();
     _nameController.dispose();
-  }
-
-  testing() {
-    _socketClient.socket!.emit('test', 'This is working');
   }
 
   @override
@@ -57,7 +54,9 @@ class _CreateRoomScreamState extends State<CreateRoomScream> {
                 ),
                 CustomButton(
                   text: 'Create',
-                  onTap: testing,
+                  onTap: _socketMethods.createGame(
+                    _nameController.text,
+                  ),
                 )
               ],
             ),
