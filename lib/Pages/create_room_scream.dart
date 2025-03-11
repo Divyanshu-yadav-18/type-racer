@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tyrace/utils/socket_client.dart';
 import 'package:tyrace/utils/socket_methods.dart';
 import 'package:tyrace/widgets/custom_button.dart';
 import 'package:tyrace/widgets/custom_text_field.dart';

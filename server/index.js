@@ -17,6 +17,13 @@ const dB = process.env.MONGO_URI;
 
 io.on("connection", (socket) => {
   console.log(socket.id);
+
+  socket.on("create-game", async (data) => {
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 mongoose
