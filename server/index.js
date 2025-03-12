@@ -4,6 +4,8 @@ const http = require("http");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const Game = require("./models/game");
+const getSentence = require("./api/getSentences");
 const app = express();
 const port = 3000;
 
@@ -20,6 +22,9 @@ io.on("connection", (socket) => {
 
   socket.on("create-game", async (data) => {
     try {
+      let game = new Game();
+      const sentence = await getSentence();
+      game.words = sentence;
     } catch (e) {
       console.log(e);
     }
