@@ -18,7 +18,7 @@ app.use(express.json());
 const dB = process.env.MONGO_URI;
 
 io.on("connection", (socket) => {
-  socket.on("create-game", async (data) => {
+  socket.on("create-game", async ({ nickname }) => {
     try {
       let game = new Game();
       const sentence = await getSentence();
@@ -31,6 +31,10 @@ io.on("connection", (socket) => {
       };
       game.players.push(player);
       game = await game.save();
+
+      const gameId = game._id.toString();
+      socket.join(gameId);
+      io.to(gameId).emit("updateGame", game);
     } catch (e) {
       console.log(e);
     }

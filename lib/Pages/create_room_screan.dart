@@ -3,16 +3,22 @@ import 'package:tyrace/utils/socket_methods.dart';
 import 'package:tyrace/widgets/custom_button.dart';
 import 'package:tyrace/widgets/custom_text_field.dart';
 
-class CreateRoomScream extends StatefulWidget {
-  const CreateRoomScream({super.key});
+class CreateRoomScrean extends StatefulWidget {
+  const CreateRoomScrean({super.key});
 
   @override
-  State<CreateRoomScream> createState() => _CreateRoomScreamState();
+  State<CreateRoomScrean> createState() => _CreateRoomScreamState();
 }
 
-class _CreateRoomScreamState extends State<CreateRoomScream> {
+class _CreateRoomScreamState extends State<CreateRoomScrean> {
   final TextEditingController _nameController = TextEditingController();
   final SocketMethods _socketMethods = SocketMethods();
+
+  @override
+  void initState() {
+    super.initState();
+    _socketMethods.updateGameListener(context);
+  }
 
   @override
   void dispose() {
@@ -53,7 +59,7 @@ class _CreateRoomScreamState extends State<CreateRoomScream> {
                 ),
                 CustomButton(
                   text: 'Create',
-                  onTap: _socketMethods.createGame(
+                  onTap: () => _socketMethods.createGame(
                     _nameController.text,
                   ),
                 )
