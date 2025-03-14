@@ -39,6 +39,33 @@ io.on("connection", (socket) => {
       console.log(e);
     }
   });
+
+  socket.on("join-game", async ({ nickname, gameId }) => {
+    try {
+      if (!gameId.match(/^[0-9a-fA-F]{24}$/)) {
+        socket.emit("notCorrectGame", "please enter a valid gameId");
+        return;
+      }
+      let game = await Game.findById(gameId);
+
+      if (game.isJoin) {
+        const id = game._id.toString();
+
+        let player = {
+          nickname,
+          socketID: socket.id,
+        };
+        socket.join(id);
+        game.players.push(player);
+        game = await game.save();
+        io.to(gameId).emit("updateGame", game);
+      } else {
+        socket.emit("notCorrectGame", "Game in progress");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 mongoose
