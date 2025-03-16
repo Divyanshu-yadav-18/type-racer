@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tyrace/widgets/game_text_field.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Text('Game Screen'),
+      bottomNavigationBar: const GameTextField(),
+    );
   }
 }

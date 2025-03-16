@@ -42,6 +42,16 @@ class SocketMethods {
     });
   }
 
+  startTimer(playerId, gameId) {
+    _socketClient.emit(
+      'timer',
+      {
+        'playerId': playerId,
+        'gameID': gameId,
+      },
+    );
+  }
+
   notCorrectGameListener(BuildContext context) {
     _socketClient.on(
       'notCorrectGame',
