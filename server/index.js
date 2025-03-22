@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const Game = require("./models/game");
 const getSentence = require("./api/getSentences");
+const { userInfo } = require("os");
 const app = express();
 const port = 3000;
 
@@ -64,6 +65,23 @@ io.on("connection", (socket) => {
       }
     } catch (e) {
       console.log(e);
+    }
+  });
+
+  socket.on("userInput", async ({ userInput, gameID }) => {
+    let game = await Game.findById(gameID);
+    if (!game.isJoin && !game.isOver) {
+      let player = game.players.find(
+        (playerr) => playerr.socketID == socket.id
+      );
+
+      if (game.words[player.currentWordIndex] === userInput.trim()) {
+        player.currentWordIndex = player.currentWordIndex + 1;
+        if (player.currentWordIndex !== game.words.length) {
+          game = await game.save();
+          io.to(gameID).emit("updateGame", game);
+        }
+      }
     }
   });
 

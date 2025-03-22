@@ -27,6 +27,17 @@ class _GameTextFieldState extends State<GameTextField> {
     findPlayerMe(game!);
   }
 
+  handleTextChange(String value, String gameID) {
+    var lashChar = value[value.length - 1];
+
+    if (lashChar == '') {
+      _socketMethods.sendUserInput(value, gameID);
+      setState(() {
+        _wordsController.text = "";
+      });
+    }
+  }
+
   findPlayerMe(GameStateProvider game) {
     game.gameState['players'].forEach((player) {
       if (player['socketID'] == SocketClient.instance.socket!.id) {
@@ -53,7 +64,7 @@ class _GameTextFieldState extends State<GameTextField> {
         : TextFormField(
             readOnly: gameData.gameState['isJoin'],
             controller: _wordsController,
-            onChanged: (val) {},
+            onChanged: (val) => handleTextChange(val, gameData.gameState['id']),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
