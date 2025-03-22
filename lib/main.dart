@@ -4,6 +4,7 @@ import 'package:tyrace/Pages/create_room_screan.dart';
 import 'package:tyrace/Pages/game_screen.dart';
 import 'package:tyrace/Pages/home_page.dart';
 import 'package:tyrace/Pages/join_room_screen.dart';
+import 'package:tyrace/providers/client_state_provider.dart';
 import 'package:tyrace/providers/game_state_provider.dart';
 
 void main() {
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => GameStateProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ClientStateProvider(),
         ),
       ],
       child: MaterialApp(
