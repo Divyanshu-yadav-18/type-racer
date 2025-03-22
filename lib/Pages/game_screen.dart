@@ -51,6 +51,39 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
                 const SentenceGame(),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 600,
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: game.gameState['player'].length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Chip(
+                              label: Text(
+                                game.gameState['player'][index]['nickname'],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            Slider(
+                              value: (game.gameState['player'][index]
+                                      ['currentWordIndex'] /
+                                  game.gameState['words'].length),
+                              onChanged: (val) {},
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 game.gameState['isJoin']
                     ? ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
