@@ -5,6 +5,7 @@ import 'package:tyrace/providers/client_state_provider.dart';
 import 'package:tyrace/providers/game_state_provider.dart';
 import 'package:tyrace/utils/socket_methods.dart';
 import 'package:tyrace/widgets/game_text_field.dart';
+import 'package:tyrace/widgets/sentence_game.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -48,6 +49,7 @@ class _GameScreenState extends State<GameScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SentenceGame(),
                 game.gameState['isJoin']
                     ? ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
