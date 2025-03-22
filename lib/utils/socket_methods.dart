@@ -94,4 +94,11 @@ class SocketMethods {
       );
     });
   }
+
+  gameFinishedListener() {
+    _socketClient.on(
+      'done',
+      (data) => _socketClient.off('timer'),
+    );
+  }
 }

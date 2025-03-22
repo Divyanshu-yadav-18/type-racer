@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const Game = require("./models/game");
 const getSentence = require("./api/getSentences");
-const { userInfo } = require("os");
+const { userInfo, platform } = require("os");
 const app = express();
 const port = 3000;
 
@@ -81,6 +81,13 @@ io.on("connection", (socket) => {
           game = await game.save();
           io.to(gameID).emit("updateGame", game);
         }
+      } else {
+        let endTime = new Date().getTime();
+        let { startTime } = game;
+        player.WPM = calculateWPM(endTime, startTime, player);
+        game = await game.save();
+        socket.emit("done");
+        io.to(gameID).emit("updateGame", game);
       }
     }
   });
@@ -125,6 +132,29 @@ const startGameClock = async (gameID) => {
           msg: "Time Remaining",
         });
         time--;
+      } else {
+        (async () => {
+          try {
+            let endTime = new Date().getTime();
+            let game = await Game.findById(gameID);
+            let { startTime } = game;
+            game.isOver = true;
+            game.players.forEach((player, index) => {
+              if (player.WPM === -1) {
+                game.players[index].WPM = calculateWPM(
+                  endTime,
+                  startTime,
+                  player
+                );
+              }
+            });
+            game = await game.save();
+            io.to(gameID).emit("updateGame", game);
+            clearInterval(timerId);
+          } catch (e) {
+            console.log(e);
+          }
+        })();
       }
       return gameIntervalFunc;
     })(),
@@ -136,6 +166,14 @@ const calculateTime = (time) => {
   let min = Math.floor(time / 60);
   let sec = time % 60;
   return `${min}:${sec < 10 ? "0" + sec : sec}`;
+};
+
+const calculateWPM = (endTime, startTime, player) => {
+  const timeTakenInSec = (endTime - startTime) / 1000;
+  const timeTaken = timeTakenInSec / 60;
+  let wordTyped = player.currentWordIndex;
+  const WPM = Math.floor(wordTyped / timeTaken);
+  return WPM;
 };
 mongoose
   .connect(dB)
