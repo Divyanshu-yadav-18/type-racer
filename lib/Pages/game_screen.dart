@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tyrace/providers/client_state_provider.dart';
 import 'package:tyrace/providers/game_state_provider.dart';
@@ -47,6 +48,53 @@ class _GameScreenState extends State<GameScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                game.gameState['isJoin']
+                    ? ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 600),
+                        child: TextField(
+                          readOnly: true,
+                          onTap: () {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: game.gameState['id'],
+                              ),
+                            ).then((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Game Code copied to clipboard',
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
+                            fillColor: const Color(
+                              0xffF5F5FA,
+                            ),
+                            hintText: 'Click To Copy Code',
+                            hintStyle: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),
