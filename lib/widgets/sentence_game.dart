@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tyrace/providers/game_state_provider.dart';
 import 'package:tyrace/utils/socket_client.dart';
 import 'package:tyrace/utils/socket_methods.dart';
+import 'package:tyrace/widgets/scoreboard.dart';
 
 class SentenceGame extends StatefulWidget {
   const SentenceGame({super.key});
@@ -69,8 +70,6 @@ class _SentenceGameState extends State<SentenceGame> {
         ),
       );
     }
-    return Container(
-      child: Text('Score plzz'),
-    );
+    return Scoreboard();
   }
 }
