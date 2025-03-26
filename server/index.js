@@ -1,20 +1,20 @@
-const { Socket } = require("dgram");
-const express = require("express");
-const http = require("http");
-const mongoose = require("mongoose");
+import { Server } from "socket.io";
+import express, { json } from "express";
+import { createServer } from "http";
+import mongoose, { connect } from "mongoose";
+
+import Game, { findById } from "./models/game";
+import getSentence from "./api/getSentences";
 require("dotenv").config();
-
-const Game = require("./models/game");
-const getSentence = require("./api/getSentences");
-const { userInfo, platform } = require("os");
+// const { userInfo, platform } = require("os");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-var server = http.createServer(app);
+var server = createServer(app);
 
-var io = require("socket.io")(server);
+const io = new Server(server);
 
-app.use(express.json());
+app.use(json());
 
 const dB = process.env.MONGO_URI;
 
@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
         socket.emit("notCorrectGame", "please enter a valid gameId");
         return;
       }
-      let game = await Game.findById(gameId);
+      let game = await findById(gameId);
 
       if (game.isJoin) {
         const id = game._id.toString();
@@ -72,7 +72,7 @@ io.on("connection", (socket) => {
     let game = await Game.findById(gameID);
     if (!game.isJoin && !game.isOver) {
       let player = game.players.find(
-        (playerr) => playerr.socketID == socket.id
+        (playerr) => playerr.socketID === socket.id
       );
 
       if (game.words[player.currentWordIndex] === userInput.trim()) {
@@ -80,22 +80,22 @@ io.on("connection", (socket) => {
         if (player.currentWordIndex !== game.words.length) {
           game = await game.save();
           io.to(gameID).emit("updateGame", game);
+        } else {
+          let endTime = new Date().getTime();
+          let { startTime } = game;
+          player.WPM = calculateWPM(endTime, startTime, player);
+          game = await game.save();
+          socket.emit("done");
+          io.to(gameID).emit("updateGame", game);
         }
-      } else {
-        let endTime = new Date().getTime();
-        let { startTime } = game;
-        player.WPM = calculateWPM(endTime, startTime, player);
-        game = await game.save();
-        socket.emit("done");
-        io.to(gameID).emit("updateGame", game);
       }
     }
   });
 
-  socket.on(" timer", async ({ playerId, gameID }) => {
+  socket.on("timer", async ({ playerId, gameID }) => {
     let countDown = 5;
     let game = await Game.findById(gameID);
-    let player = await game.players.id(playerId);
+    let player = game.players.id(playerId);
 
     if (player.isPartyLeader) {
       let timerId = setInterval(async () => {
@@ -104,6 +104,7 @@ io.on("connection", (socket) => {
             countDown,
             msg: "Game Starting",
           });
+          console.log(countDown);
           countDown--;
         } else {
           game.isJoin = false;
@@ -123,14 +124,16 @@ const startGameClock = async (gameID) => {
   game = awaitgame.save();
 
   let time = 120;
+
   let timerId = setInterval(
     (function gameIntervalFunc() {
-      if (time > 0) {
+      if (time >= 0) {
         const timeFormat = calculateTime(time);
         io.to(gameID).emit("timer", {
           countDown: timeFormat,
           msg: "Time Remaining",
         });
+        console.log(time);
         time--;
       } else {
         (async () => {
