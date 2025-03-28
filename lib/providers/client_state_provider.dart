@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tyrace/models/client_state.dart';
 
 class ClientStateProvider extends ChangeNotifier {
-  ClientState _clientState = ClientState(timer: {
-    'countDown': '',
-    'msg': '',
-  });
+  ClientState _clientState = ClientState(
+    timer: {
+      'countDown': '',
+      'msg': '',
+    },
+  );
 
   Map<String, dynamic> get clientState => _clientState.toJson();
 

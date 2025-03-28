@@ -52,12 +52,12 @@ class SocketMethods {
     });
   }
 
-  startTimer(playerId, gameId) {
+  startTimer(playerId, gameID) {
     _socketClient.emit(
       'timer',
       {
         'playerId': playerId,
-        'gameID': gameId,
+        'gameID': gameID,
       },
     );
   }

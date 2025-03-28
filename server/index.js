@@ -3,8 +3,8 @@ import express, { json } from "express";
 import { createServer } from "http";
 import mongoose, { connect } from "mongoose";
 
-import Game, { findById } from "./models/game";
-import getSentence from "./api/getSentences";
+import Game, { findById } from "./models/game.js";
+import getSentence from "./api/getSentences.js";
 require("dotenv").config();
 // const { userInfo, platform } = require("os");
 const app = express();

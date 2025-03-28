@@ -7,46 +7,45 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(
             maxWidth: 600,
           ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Create or Join a room for play',
-                  style: TextStyle(
-                    fontSize: 24,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Create or Join a room for play',
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomButton(
+                    text: 'Create',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/create-room');
+                    },
+                    isHome: true,
                   ),
-                ),
-                SizedBox(
-                  height: size.height * 0.1,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CustomButton(
-                      text: 'Create',
-                      onTap: () {
-                        Navigator.pushNamed(context, '/create-room');
-                      },
-                      isHome: true,
-                    ),
-                    CustomButton(
-                      text: 'Join',
-                      onTap: () {
-                        Navigator.pushNamed(context, '/join-room');
-                      },
-                      isHome: true,
-                    )
-                  ],
-                )
-              ],
-            ),
+                  CustomButton(
+                    text: 'Join',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/join-room');
+                    },
+                    isHome: true,
+                  )
+                ],
+              )
+            ],
           ),
         ),
       ),

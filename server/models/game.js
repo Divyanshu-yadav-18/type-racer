@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const playerSchema = require("./player");
+import mongoose, { Schema, model } from "mongoose";
+import playerSchema from "./player.js";
 
 const gameSchema = new mongoose.Schema({
   words: [
@@ -23,4 +23,4 @@ const gameSchema = new mongoose.Schema({
 
 const gameModel = mongoose.model("Game", gameSchema);
 
-module.exports = gameModel;
+export default gameModel;

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema } from "mongoose";
 
 const playerSchema = new mongoose.Schema({
   nickname: {
@@ -21,4 +21,4 @@ const playerSchema = new mongoose.Schema({
   },
 });
 
-module.exports = playerSchema;
+export default playerSchema;

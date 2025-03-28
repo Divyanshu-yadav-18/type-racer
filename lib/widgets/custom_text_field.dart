@@ -31,7 +31,10 @@ class CustomTextField extends StatelessWidget {
           0xffF5F5FA,
         ),
         hintText: hintText,
-        hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+        hintStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

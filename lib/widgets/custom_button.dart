@@ -13,13 +13,16 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
     return ElevatedButton(
       onPressed: () {
-        print("Button Pressed: $text");
         onTap();
       },
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(!isHome ? width : width / 5, 50),
+        minimumSize: Size(
+          !isHome ? width : width / 5,
+          50,
+        ),
       ),
       child: Text(
         text,

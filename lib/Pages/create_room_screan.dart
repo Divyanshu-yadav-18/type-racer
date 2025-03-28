@@ -51,9 +51,6 @@ class _CreateRoomScreamState extends State<CreateRoomScrean> {
                 SizedBox(
                   height: size.height * 0.08,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
                 CustomTextField(
                   controller: _nameController,
                   hintText: 'Enter Name',

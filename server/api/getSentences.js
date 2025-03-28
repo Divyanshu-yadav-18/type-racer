@@ -1,9 +1,11 @@
-const axios = require("axios");
+import axios from "axios";
+
+const { get } = axios;
 
 const getSentence = async () => {
-  const jokeData = await axios.get("https://api.quotable.io/random");
+  const jokeData = await get("https://api.quotable.io/random");
 
   return jokeData.data.content.split(" ");
 };
 
-module.exports = getSentence;
+export default getSentence;

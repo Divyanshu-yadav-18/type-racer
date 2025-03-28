@@ -11,8 +11,8 @@ class JoinRoomScreen extends StatefulWidget {
 }
 
 class _JoinRoomScreenState extends State<JoinRoomScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _gameIdController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _gameIdController = TextEditingController();
   final SocketMethods _socketMethods = SocketMethods();
 
   @override
@@ -32,6 +32,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
@@ -48,20 +49,19 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
               children: [
                 const Text(
                   'Join Room',
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.08,
-                ),
-                const SizedBox(
-                  height: 40,
                 ),
                 CustomTextField(
                   controller: _nameController,
                   hintText: 'Enter Name',
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 CustomTextField(
                   controller: _gameIdController,

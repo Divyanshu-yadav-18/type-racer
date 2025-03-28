@@ -29,6 +29,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     final game = Provider.of<GameStateProvider>(context);
     final clientStateProvider = Provider.of<ClientStateProvider>(context);
+
     return Scaffold(
         body: SafeArea(
           child: Center(
@@ -57,7 +58,7 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: game.gameState['player'].length,
+                    itemCount: game.gameState['players'].length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8),
@@ -66,14 +67,14 @@ class _GameScreenState extends State<GameScreen> {
                           children: [
                             Chip(
                               label: Text(
-                                game.gameState['player'][index]['nickname'],
+                                game.gameState['players'][index]['nickname'],
                                 style: TextStyle(
                                   fontSize: 18,
                                 ),
                               ),
                             ),
                             Slider(
-                              value: (game.gameState['player'][index]
+                              value: (game.gameState['players'][index]
                                       ['currentWordIndex'] /
                                   game.gameState['words'].length),
                               onChanged: (val) {},
@@ -86,7 +87,9 @@ class _GameScreenState extends State<GameScreen> {
                 ),
                 game.gameState['isJoin']
                     ? ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 600),
+                        constraints: const BoxConstraints(
+                          maxWidth: 600,
+                        ),
                         child: TextField(
                           readOnly: true,
                           onTap: () {
@@ -126,7 +129,9 @@ class _GameScreenState extends State<GameScreen> {
                             ),
                             hintText: 'Click To Copy Code',
                             hintStyle: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w400),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       )
